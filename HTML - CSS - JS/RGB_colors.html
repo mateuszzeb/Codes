@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>RGB_colors</title>
+</head>
+<body>
+	<script type="text/javascript">
+		const body = document.getElementByTagName('body');
+		var direction = [1, "u"]
+		var RGB = [255, 0, 0];
+		window.setInterval(function(){ 
+			
+			if(direction[1] == "d"){
+				if(RGB[direction[0]] > 0){
+					RGB[direction[0]]--;
+				}
+				else{
+					if(direction[0] < 2) direction[0] ++;
+					else direction[0] = 0;
+					if(direction[1] == "u") direction[1] = "d";
+					else direction[1] = "u";
+				}
+			}
+			else if(direction[1] == "u"){
+				if(RGB[direction[0]] < 255){
+					RGB[direction[0]]++;
+				}
+				else{
+					if(direction[0] < 2) direction[0] ++;
+					else direction[0] = 0;
+					if(direction[1] == "d") direction[1] = "u";
+					else direction[1] = "d";
+				}
+			}
+			else{
+				console.error("direction[1] have not d/u value");
+				return;
+			}
+			console.clear();
+			console.log("rgb(" + RGB[0] + ", " + RGB[1] + ", " + RGB[2] + ") / " + direction);
+			body.style.background = "rgb(" + RGB[0] + ", " + RGB[1] + ", " + RGB[2] + ")";
+		}, 10);
+
+
+
+	</script>
+</body>
+</html>
