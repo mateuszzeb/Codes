@@ -1,0 +1,15 @@
+# django-admin startproject ...
+- start of project 
+
+# python manege.py startapp ...
+- create a new app in project 
+
+# python manage.py runserver ....... : ...
+- starting server at ......... ip on ... port
+
+# python manage.py makemigrations optional(NameOfApp)
+- creating file of migrations  
+
+# python manage.py migrate
+- migrate file of migrations to database
+
