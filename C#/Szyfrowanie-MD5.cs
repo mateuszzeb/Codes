@@ -1,27 +1,30 @@
 // Szyfrowanie MD5
 
-using System;
+// Using 
 using System.Security.Cryptography;
 using System.Text;
 
-namespace First
+// Class
+class MD5_
 {
-    public class Program
+    public string get_md5_string(string txt)
     {
-        public static void Main()
+        MD5 md5 = new MD5CryptoServiceProvider();
+        md5.ComputeHash(Encoding.ASCII.GetBytes(txt));
+        byte[] result = md5.Hash;
+        StringBuilder strBuilder = new StringBuilder();
+        for (int i = 0; i < result.Length; i++)
         {
-            Console.Write("Text: ");
-            String txt = Console.ReadLine();
-            MD5 md5 = new MD5CryptoServiceProvider();
-            md5.ComputeHash(Encoding.ASCII.GetBytes(txt));
-            byte[] result = md5.Hash;
-            StringBuilder strBuilder = new StringBuilder();
-            for (int i = 0; i < result.Length; i++)
-            {
-                strBuilder.Append(result[i].ToString("x2"));
-            }
-            var szyfr = strBuilder.ToString();
-            Console.WriteLine(szyfr);
+            strBuilder.Append(result[i].ToString("x2"));
         }
+        string szyfr = strBuilder.ToString();
+        return szyfr;
     }
 }
+
+// Example
+// MD5_ md5 = new MD5();
+// Console.WriteLine(md5.get_md5_string("admin"));
+//
+// Output: 
+// 21232f297a57a5a743894a0e4a801fc3
