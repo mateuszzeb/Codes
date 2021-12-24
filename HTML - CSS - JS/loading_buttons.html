@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            background: #0e1538;
+        }
+
+        a {
+            position: relative;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            margin: 40px;
+            transition: 0.4s;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background: var(--clr);
+            box-shadow:
+                0 0 10px var(--clr),
+                0 0 30px var(--clr)
+            ;
+        }
+
+        a::before {
+            content: "";
+            position: absolute;
+            width: var(--l);
+            height: 400px;
+            background-color: var(--clr);
+            transition: 1s;
+            animation: animate 2s linear infinite;
+            animation-delay: calc(0.33s * var(--i));
+        }
+
+        a:hover::before {
+            width: 100%;
+
+        }
+
+        @keyframes animate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        a::after {
+            content: "";
+            position: absolute;
+            background: #0e1538;
+            inset: 4px;
+        }
+
+        a:hover::after {
+            background: var(--clr);
+        }
+
+        a span {
+            position: relative;
+            z-index: 1;
+            font-size: 2em;
+            text-transform: uppercase;
+            color: #000000;
+            letter-spacing: 2px;
+        }
+        a:hover span{
+            text-shadow: 0 0 10px #000;
+        }
+    </style>
+    <title>HOME</title>
+</head>
+
+<body>
+    <a href="#" style="
+        --clr: #ff22bb; 
+        --i:3;
+        --l:50px;
+    ">
+        <span>Button</span>
+    </a>
+    <a href="#" style="
+        --clr: #00ccff; 
+        --i:2;
+        --l:10px;
+    ">
+        <span>Button</span>
+    </a>
+    <a href="#" style="
+        --clr: #22e622; 
+        --i:1;
+        --l:70px;
+    ">
+        <span>Button</span>
+    </a>
+</body>
+
+</html>
