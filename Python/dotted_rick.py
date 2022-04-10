@@ -1,11 +1,27 @@
 from pygame import *
-import math, random
+from pygame import camera
+import math, random, sys, requests, os
+
+clc = time.Clock()
+
+if len(sys.argv) != 3:
+    sys.exit("\npython rick.py --type --path\n - file file.png\n - web https://url.to.image/")
 
 screen = display.set_mode([512, 512])
 display.set_caption("Mouse move over dots")
-rick = image.load("./rick.png") # <-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<- IMG POWINNO MIEĆ 512x512 px
-level = 0
-
+if sys.argv[1] == "file":
+    _image = image.load(sys.argv[2])
+elif sys.argv[1] == "web":
+    open("file.png", "wb").write(requests.get(sys.argv[2]).content)
+    _image = image.load("file.png")
+elif sys.argv[1] == "camera":
+    camera.init()
+    cameras = camera.list_cameras()
+    webcam = camera.Camera(cameras[0])
+    webcam.start()
+    _image = webcam.get_image()
+    
+_image = transform.scale(_image, [512, 512])
 def avg_color(*args):
     avgR = 0
     avgG = 0
@@ -39,10 +55,14 @@ levels = Levels()
 class Dot:
     objects = []
     def __init__(self, pos, level):
-        self.color = get_avg_colors_from_surface(rick, int(round(pos[0] - (levels[level] / 2), 0)), levels[level], int(round(pos[1] - (levels[level] / 2))), levels[level])
         self.level = level
         self.pos = pos
+        self.color = [0, 0, 0]
         self.__class__.objects.append(self)
+        
+    def load_color(self):
+        self.color = get_avg_colors_from_surface(_image, int(round(self.pos[0] - (levels[self.level] / 2), 0)), levels[self.level], int(round(self.pos[1] - (levels[self.level] / 2))), levels[self.level])
+   
     def draw(self):
         draw.circle(screen, self.color, self.pos, levels[self.level])
 
@@ -57,17 +77,24 @@ class Dot:
 Dot([256, 256], 0)
 
 
-
 while True:
-    screen.fill([255, 255, 255])
+    screen.fill([20, 20, 20])
     for evt in event.get():
         if evt.type == QUIT:
             exit()
         if evt.type == MOUSEMOTION:
             for dot in Dot.objects:
-                if math.sqrt(abs(dot.pos[0] - mouse.get_pos()[0])**2 + abs(dot.pos[1] - mouse.get_pos()[1])**2) <= levels[dot.level] and dot.level < 7:
-                    dot.division()
+                if dot.level < 10:
+                    if math.sqrt(abs(dot.pos[0] - mouse.get_pos()[0])**2 + abs(dot.pos[1] - mouse.get_pos()[1])**2) <= levels[dot.level]:
+                        dot.division()
+
     for dot in Dot.objects:
+        dot.load_color()
         dot.draw()
-    print(len(Dot.objects), end="\r")
+    if sys.argv[1] == "camera":
+        _image = webcam.get_image()
+        _image = transform.flip(_image, True, False)
+    _image = transform.scale(_image, [512, 512])
+    clc.tick(60)
+    print(clc.get_fps(), end="\r")
     display.flip()
